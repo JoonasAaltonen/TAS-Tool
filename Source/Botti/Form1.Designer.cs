@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.startButton = new System.Windows.Forms.Button();
             this.DebugTextBox = new System.Windows.Forms.TextBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.stopButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.StatusBox = new System.Windows.Forms.TextBox();
@@ -39,18 +39,18 @@
             this.ElapsedMsBox = new System.Windows.Forms.TextBox();
             this.CmdIndexBox = new System.Windows.Forms.TextBox();
             this.TrackLabel = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.trackComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
-            // button1
+            // startButton
             // 
-            this.button1.Location = new System.Drawing.Point(69, 75);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Start";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.startButton.Location = new System.Drawing.Point(69, 75);
+            this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(75, 23);
+            this.startButton.TabIndex = 0;
+            this.startButton.Text = "Start";
+            this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.StartButtonClick);
             // 
             // DebugTextBox
             // 
@@ -59,15 +59,15 @@
             this.DebugTextBox.Size = new System.Drawing.Size(351, 20);
             this.DebugTextBox.TabIndex = 1;
             // 
-            // button2
+            // stopButton
             // 
-            this.button2.Location = new System.Drawing.Point(182, 75);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Stop";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.stopButton.Location = new System.Drawing.Point(182, 75);
+            this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopButton.TabIndex = 2;
+            this.stopButton.Text = "Stop";
+            this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.StopButtonClick);
             // 
             // label1
             // 
@@ -140,15 +140,15 @@
             this.TrackLabel.TabIndex = 11;
             this.TrackLabel.Text = "Select active track";
             // 
-            // comboBox1
+            // trackComboBox
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(195, 33);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(277, 21);
-            this.comboBox1.TabIndex = 10;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.trackComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.trackComboBox.FormattingEnabled = true;
+            this.trackComboBox.Location = new System.Drawing.Point(195, 33);
+            this.trackComboBox.Name = "trackComboBox";
+            this.trackComboBox.Size = new System.Drawing.Size(277, 21);
+            this.trackComboBox.TabIndex = 10;
+            this.trackComboBox.SelectedIndexChanged += new System.EventHandler(this.TrackComboboxSelectedItemChanged);
             // 
             // Form1
             // 
@@ -156,7 +156,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(608, 232);
             this.Controls.Add(this.TrackLabel);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.trackComboBox);
             this.Controls.Add(this.CmdIndexBox);
             this.Controls.Add(this.ElapsedMsBox);
             this.Controls.Add(this.label4);
@@ -164,9 +164,9 @@
             this.Controls.Add(this.StatusBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.stopButton);
             this.Controls.Add(this.DebugTextBox);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.startButton);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
@@ -176,9 +176,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.TextBox DebugTextBox;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox StatusBox;
@@ -187,7 +187,7 @@
         private System.Windows.Forms.TextBox ElapsedMsBox;
         private System.Windows.Forms.TextBox CmdIndexBox;
         private System.Windows.Forms.Label TrackLabel;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox trackComboBox;
     }
 }
 

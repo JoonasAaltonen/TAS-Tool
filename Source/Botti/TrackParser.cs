@@ -9,7 +9,7 @@ namespace Botti
     {
         private string ReadJson(string trackName)
         {
-            string path = String.Concat(ConfigurationSettings.AppSettings["trackJsonLocation"], Form1.selectedTrack);
+            string path = String.Concat(ConfigurationSettings.AppSettings["trackJsonLocation"], Form1.SelectedTrack);
             StreamReader reader = new StreamReader(path);
             string contents = reader.ReadToEnd();
             reader.Close();

@@ -20,7 +20,7 @@ namespace Botti
         //private delegate void TextBoxEditDelegate(int elapsedMilliseconds, int commandIndex);
         private delegate void TextBoxEditDelegate(int commandIndex);
 
-        public static string selectedTrack = "";
+        public static string SelectedTrack = "";
         public Form1()
         {
             InitializeComponent();
@@ -30,7 +30,7 @@ namespace Botti
 
 
         // Send a series of key presses to the Calculator application.
-        private void button1_Click(object sender, EventArgs e)
+        private void StartButtonClick(object sender, EventArgs e)
         {
             runner.Run();
         }
@@ -66,14 +66,14 @@ namespace Botti
         }
 
 
-        private void button2_Click(object sender, EventArgs e)
+        private void StopButtonClick(object sender, EventArgs e)
         {
             runner.Stop();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void TrackComboboxSelectedItemChanged(object sender, EventArgs e)
         {
-            selectedTrack = comboBox1.SelectedItem.ToString();
+            SelectedTrack = trackComboBox.SelectedItem.ToString();
         }
 
         private void PopulateComboBox()
@@ -83,7 +83,12 @@ namespace Botti
 
             foreach (string filePath in files)
             {
-                comboBox1.Items.Add(Path.GetFileName(filePath));
+                trackComboBox.Items.Add(Path.GetFileName(filePath));
+            }
+
+            if (trackComboBox.Items.Count != 0)
+            {
+                SelectedTrack = trackComboBox.Items[0].ToString();
             }
         }
     }
