@@ -6,21 +6,38 @@
         xmlns:local="clr-namespace:TasUi"
         mc:Ignorable="d"
         Title="MainWindow" Height="319" Width="522">
-    <Grid>
-        <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="31,62,0,0" VerticalAlignment="Top" Height="36" Width="66" Click="OnClickStartButton"/>
-        <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="111,62,0,0" VerticalAlignment="Top" Height="36" Width="66" Click="OnClickStopButton"/>
-        <Label x:Name="SelectTrackLabel" Content="Select active track" HorizontalAlignment="Left" Margin="251,19,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="15"/>
-        <ComboBox x:Name="TrackComboBox" HorizontalAlignment="Left" Margin="191,62,0,0" VerticalAlignment="Top" Width="258" IsReadOnly="True" Height="36" SelectionChanged="OnComboBoxValueChanged" />
-        <Label x:Name="DebugLabel" Content="Debug" HorizontalAlignment="Left" Margin="31,110,0,0" VerticalAlignment="Top" FontSize="15" Height="35" Width="60"/>
-        <TextBox x:Name="DebugTextBox" HorizontalAlignment="Left" Margin="111,110,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="338" FontSize="13" Height="35"/>
-        <Label x:Name="RunnerLabel" Content="Runner status" HorizontalAlignment="Left" Margin="31,167,0,0" VerticalAlignment="Top" FontSize="15"/>
-        <TextBox x:Name="RunnerTextBox" HorizontalAlignment="Left" Margin="160,164,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="13" Height="35"/>
-        <Label x:Name="CmdLabel" Content="Command Index" HorizontalAlignment="Left" Margin="31,212,0,0" VerticalAlignment="Top" FontSize="15"/>
-        <TextBox x:Name="CmdTextBox" HorizontalAlignment="Left" Margin="160,209,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="13" Height="35"/>
-        <Canvas x:Name="LeftArrowCanv" Margin="300,207,0,0" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40"/>
-        <Canvas x:Name="DownArrowCanv" Margin="353,207,0,0" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="35"/>
-        <Canvas x:Name="RightArrowCanv" Margin="404,207,0,0" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="40"/>
-        <Canvas x:Name="UpArrowCanv" Margin="353,162,0,0" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="35"/>
 
-    </Grid>
+    <TabControl>
+        <TabItem Header="Parameters">
+            <Grid>
+                <Button x:Name="StartButton" Content="Start" HorizontalAlignment="Left" Margin="31,116,0,0" VerticalAlignment="Top" Height="36" Width="66" Click="OnClickStartButton"/>
+                <Button x:Name="StopButton" Content="Stop" HorizontalAlignment="Left" Margin="111,116,0,0" VerticalAlignment="Top" Height="36" Width="66" Click="OnClickStopButton"/>
+                <Label x:Name="SelectTrackLabel" Content="Select active track" HorizontalAlignment="Left" Margin="310,27,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="15"/>
+                <ComboBox x:Name="TrackComboBox" HorizontalAlignment="Left" Margin="274,62,0,0" VerticalAlignment="Top" Width="209" IsReadOnly="True" Height="36" SelectionChanged="OnTrackComboBoxValueChanged" />
+                <Label x:Name="DebugLabel" Content="Debug" HorizontalAlignment="Left" Margin="31,204,0,0" VerticalAlignment="Top" FontSize="15" Height="35" Width="60"/>
+                <TextBox x:Name="DebugTextBox" HorizontalAlignment="Left" Margin="111,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="372" FontSize="10" Height="35"/>
+                <Label x:Name="RunnerLabel" Content="Runner status" HorizontalAlignment="Left" Margin="196,120,0,0" VerticalAlignment="Top" FontSize="15"/>
+                <TextBox x:Name="RunnerTextBox" HorizontalAlignment="Left" Margin="310,117,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="13" Height="35"/>
+                <Label x:Name="CommandLabel" Content="Command Index" HorizontalAlignment="Left" Margin="31,169,0,0" VerticalAlignment="Top" FontSize="15"/>
+                <TextBox x:Name="CommandTextBox" HorizontalAlignment="Left" Margin="170,164,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" FontSize="13" Height="35"/>
+                <ComboBox x:Name="GameComboBox" HorizontalAlignment="Left" Margin="31,62,0,0" VerticalAlignment="Top" Width="199" IsReadOnly="True" Height="36" SelectionChanged="OnGameComboBoxValueChanged" />
+                <Label x:Name="SelectGameLabel" Content="Select active game" HorizontalAlignment="Left" Margin="62,27,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="15"/>
+                <Label x:Name="ElapsedTimeLabel" Content="Millisecs Elapsed:" HorizontalAlignment="Left" Margin="274,166,0,0" VerticalAlignment="Top" FontSize="15"/>
+                <TextBox x:Name="ElapsedTimeTextBox" HorizontalAlignment="Left" Margin="423,163,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" FontSize="13" Height="35"/>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Key playback">
+            <Grid Background="#FFE5E5E5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*"/>
+                    <ColumnDefinition Width="122*"/>
+                </Grid.ColumnDefinitions>
+                <Canvas x:Name="LeftArrowCanv" Margin="16,85,0,0" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" Height="35" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Grid.ColumnSpan="2"/>
+                <Canvas x:Name="DownArrowCanv" Margin="41,85,0,0" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="35" Grid.Column="1"/>
+                <Canvas x:Name="RightArrowCanv" Margin="92,85,0,0" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="40" Grid.Column="1"/>
+                <Canvas x:Name="UpArrowCanv" Margin="41,40,0,0" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="35" Grid.Column="1"/>
+
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>

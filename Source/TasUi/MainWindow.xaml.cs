@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using Path = System.Windows.Shapes.Path;
+using TasTool.ConfigElements;
 
 namespace TasUi
 {
@@ -22,15 +23,25 @@ namespace TasUi
     public partial class MainWindow : Window
     {
         public string SelectedTrack = "";
+        public string SelectedGame = "";
+        private SolidColorBrush errorRed = new SolidColorBrush(Color.FromRgb(180, 80, 80));
+        private SolidColorBrush defaultColor = new SolidColorBrush(Color.FromRgb(255,255,255));
         public MainWindow()
         {
             InitializeComponent();
-            PopulateComboBox();
+            PopulateComboBoxes();
         }
 
         private void OnClickStartButton(object sender, RoutedEventArgs e)
         {
-            
+            if (IsSelectionValid())
+            {
+                
+            }
+            else
+            {
+                
+            }
         }
 
         private void OnClickStopButton(object sender, RoutedEventArgs e)
@@ -38,12 +49,21 @@ namespace TasUi
 
         }
         
-        private void PopulateComboBox()
+        private void PopulateComboBoxes()
         {
-            string path = System.Configuration.ConfigurationSettings.AppSettings["trackJsonLocation"];
-            string[] files = Directory.GetFiles(path);
+            TasGamesSection tasGames = ConfigurationManager.GetSection("TasGamesSection") as TasGamesSection;
 
-            foreach (string filePath in files)
+            foreach (TasGameConfigElement tasGameConfigElement in tasGames.TasGameCollection)
+            {
+                // todo Move and do something useful to get these into the combobox...
+                TasGameConfigElement asd = tasGameConfigElement; // Get full TasGame config object
+                TasGameConfigElement trialsConfig = tasGames.TasGameCollection["Trials"]; // Find the Config object attributes with object name
+            }
+
+            string trackFolderPath = System.Configuration.ConfigurationManager.AppSettings["trackJsonLocation"];
+            string[] trackFiles = Directory.GetFiles(trackFolderPath);
+
+            foreach (string filePath in trackFiles)
             {
                 TrackComboBox.Items.Add(System.IO.Path.GetFileName(filePath));
             }
@@ -54,9 +74,37 @@ namespace TasUi
             }
         }
 
-        private void OnComboBoxValueChanged(object sender, SelectionChangedEventArgs e)
+        private void OnTrackComboBoxValueChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectedTrack = TrackComboBox.SelectedItem.ToString();
+        }
+        private void OnGameComboBoxValueChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedGame = GameComboBox.SelectedItem.ToString();
+        }
+
+        private bool IsSelectionValid()
+        {
+            if (!string.IsNullOrEmpty(SelectedGame) && !string.IsNullOrEmpty(SelectedTrack))
+            {
+                SetDebugTextBoxBackgroundColor(true);
+                return true;
+            }
+            SetDebugTextBoxBackgroundColor(false);
+            return false;
+        }
+
+        private void SetDebugTextBoxBackgroundColor(bool isValid)
+        {
+            if (isValid)
+            {
+                DebugTextBox.Background = defaultColor;
+            }
+            else
+            {
+                DebugTextBox.Text = "Select a game and a track to play";
+                DebugTextBox.Background = errorRed;
+            }
         }
     }
 }

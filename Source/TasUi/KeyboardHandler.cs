@@ -12,10 +12,10 @@ namespace Botti
         const int KEY_DOWN_EVENT = 0x0001; //Key down flag
         const int KEY_UP_EVENT = 0x0002; //Key up flag
 
-        public static bool wIsPressed = false;
-        public static bool aIsPressed = false;
-        public static bool sIsPressed = false;
-        public static bool dIsPressed = false;
+        public static bool WIsPressed = false;
+        public static bool AIsPressed = false;
+        public static bool SIsPressed = false;
+        public static bool DIsPressed = false;
 
         public void HoldKey(byte key)
         {
@@ -34,16 +34,16 @@ namespace Botti
             switch (key)
             {
                 case (byte)Key.W:
-                    wIsPressed = status;
+                    WIsPressed = status;
                     break;
                 case (byte)Key.A:
-                    aIsPressed = status;
+                    AIsPressed = status;
                     break;
                 case (byte)Key.S:
-                    sIsPressed = status;
+                    SIsPressed = status;
                     break;
                 case (byte)Key.D:
-                    dIsPressed = status;
+                    DIsPressed = status;
                     break;
                 default:
                     Console.WriteLine("Unexpected key pressed");
@@ -55,13 +55,13 @@ namespace Botti
             switch (key)
             {
                 case (byte)Key.W:
-                    return wIsPressed;
+                    return WIsPressed;
                 case (byte)Key.A:
-                    return aIsPressed;
+                    return AIsPressed;
                 case (byte)Key.S:
-                    return sIsPressed;
+                    return SIsPressed;
                 case (byte)Key.D:
-                    return dIsPressed;
+                    return DIsPressed;
                 default:
                     Console.WriteLine("Key not acceptable");
                     throw new ArgumentOutOfRangeException("Key not acceptable");
