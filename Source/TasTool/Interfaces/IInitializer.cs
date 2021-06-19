@@ -1,4 +1,5 @@
-﻿using TasTool.Track;
+﻿using TasTool.ConfigElements;
+using TasTool.Track;
 
 namespace TasTool.Interfaces
 {

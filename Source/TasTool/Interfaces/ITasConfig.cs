@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TasTool.ConfigElements;
+using TasTool.Handlers;
 
 namespace TasTool.Interfaces
 {
@@ -7,7 +8,7 @@ namespace TasTool.Interfaces
     {
         Dictionary<string, string> AvailableTracks { get; set; }
         List<TasGameConfigElement> AvailableGames { get; set; }
-        List<KeyboardHandlerConfigElement> AvailableKeyboardHandlers { get; set; }
         (string LpClassName, string WindowCaption) GetGameWindowDetails(string gameName);
+        public KeyboardHandlerTypes EnabledKeyboardHandlerType { get; }
     }
 }

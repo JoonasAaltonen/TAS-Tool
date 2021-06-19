@@ -1,4 +1,5 @@
 ﻿using System;
+using TasTool.ConfigElements;
 using TasTool.Handlers;
 using TasTool.Interfaces;
 using TasTool.Track;
@@ -25,6 +26,7 @@ namespace TasTool
 
         public void Initialize(string gameName, string trackFilePath)
         {
+            DebugMessage = "";
             var gameWindowDetails = Config.GetGameWindowDetails(gameName);
             
             InitSuccessful = windowHandler.WindowFoundAndActivated(gameWindowDetails, out string debugMessage);
@@ -32,6 +34,7 @@ namespace TasTool
 
             TrackCommands = trackParser.ParseTrack(trackFilePath, out debugMessage);
             DebugMessage = ConcatDebugMessage(debugMessage);
+
         }
 
         private string ConcatDebugMessage(string nextMessage)
@@ -39,6 +42,5 @@ namespace TasTool
             return string.Concat(DebugMessage, nextMessage, " | ");
             
         }
-
     }
 }

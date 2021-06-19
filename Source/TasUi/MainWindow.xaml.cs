@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using TasTool;
 using TasTool.ConfigElements;
+using TasTool.Handlers;
 using TasTool.Interfaces;
 
 namespace TasUi
@@ -37,7 +38,7 @@ namespace TasUi
             InitializeComponent();
             tasInitializer = new TasFactory().CreateTasInitializer();
             Config = tasInitializer.Config;
-            commandHandler = new CommandHandler(this, tasInitializer, KeyboardHandlerTypes.WpfKeyboardHandler);
+            commandHandler = new CommandHandler(this, tasInitializer, Config.EnabledKeyboardHandlerType);
             PopulateComboBoxes();
         }
 

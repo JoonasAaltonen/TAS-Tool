@@ -4,6 +4,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using TasTool.ConfigElements;
+using TasTool.Handlers;
 using TasTool.Interfaces;
 
 namespace TasTool
@@ -12,14 +13,18 @@ namespace TasTool
     {
         public Dictionary<string, string> AvailableTracks { get; set; }
         public List<TasGameConfigElement> AvailableGames { get; set; }
-        public List<KeyboardHandlerConfigElement> AvailableKeyboardHandlers { get; set; }
+        private List<KeyboardHandlerConfigElement> availableKeyboardHandlers { get; set; }
+        public KeyboardHandlerTypes EnabledKeyboardHandlerType { get; private set; }
+
 
         public TasConfig()
         {
             AvailableGames = new List<TasGameConfigElement>();
             AvailableTracks = new Dictionary<string, string>();
-            AvailableKeyboardHandlers = new List<KeyboardHandlerConfigElement>();
+            availableKeyboardHandlers = new List<KeyboardHandlerConfigElement>();
             ReadConfigFile();
+
+            EnabledKeyboardHandlerType = GetEnabledKeyboardHandler(availableKeyboardHandlers);
         }
 
         private void ReadConfigFile()
@@ -40,6 +45,10 @@ namespace TasTool
                     AvailableTracks.Add(Path.GetFileName(trackFilePath), trackFilePath);
                 }
 
+                foreach (KeyboardHandlerConfigElement configElement in tasRunner.KeyboardHandlerCollection)
+                {
+                    availableKeyboardHandlers.Add(configElement);
+                }
             }
             else
             {
@@ -52,17 +61,38 @@ namespace TasTool
             // Sick LinQ : https://docs.microsoft.com/en-us/dotnet/csharp/linq/query-a-collection-of-objects
             var gameDetails = from game in AvailableGames
                 where game.Name == gameName
-                select new {LpClassName = game.LpClassName, WindowCaption = game.WindowCaption};
+                select new {lpClassName = game.LpClassName, windowCaption = game.WindowCaption};
 
             try
             {
                 var firstElement = gameDetails.First();
-                return (firstElement.LpClassName, firstElement.WindowCaption);
+                return (firstElement.lpClassName, firstElement.windowCaption);
             }
             catch (Exception e)
             {
                 throw e;
             }
+        }
+
+        public KeyboardHandlerTypes GetEnabledKeyboardHandler(List<KeyboardHandlerConfigElement> availableKeyboardHandlers)
+        {
+            // More sick LinQ
+            var keyboardHandler = from handlers in availableKeyboardHandlers
+                where handlers.Enabled == true
+                select new { name = handlers.Name};
+            try
+            {
+                var firstElement = keyboardHandler.First();
+                string enabledHandlerName = firstElement.name;
+                return (KeyboardHandlerTypes) Enum.Parse(typeof(KeyboardHandlerTypes), enabledHandlerName, true);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            
         }
     }
 }
