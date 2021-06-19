@@ -14,8 +14,10 @@ namespace TasTool.Autofac
             var builder = new ContainerBuilder();
 
             builder.RegisterType<WindowHandler>().As<IWindowHandler>();
-            builder.RegisterType<Runner>().As<IRunner>();
+            // Singleton ?? builder.RegisterType<WindowHandler>().As<IWindowHandler>().SingleInstance();
+            builder.RegisterType<Initializer>().As<IInitializer>();
             builder.RegisterType<TrackParser>().As<ITrackParser>();
+            builder.RegisterType<TasConfig>().As<ITasConfig>();
 
 
             return builder.Build();

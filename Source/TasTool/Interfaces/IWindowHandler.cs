@@ -1,9 +1,7 @@
-﻿using System;
-
-namespace TasTool.Handlers
+﻿namespace TasTool.Interfaces
 {
     public interface IWindowHandler
     {
-        IntPtr FindAndActivateWindow(Tuple<string, string> windowProperties, out string message);
+        bool WindowFoundAndActivated((string lpClassName, string windowCaption) windowProperties, out string message);
     }
 }

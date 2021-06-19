@@ -4,21 +4,8 @@ namespace TasTool.ConfigElements
 {
     public class TasGameConfigElement : ConfigurationElement
     {
-        private string name;
-        private string lpClassName;
-        private string windowCaption;
-
         public TasGameConfigElement()
         {
-        }
-
-        public TasGameConfigElement(string name, string lpClassName, string windowCaption)
-        {
-           
-            this.name = name;
-            this.lpClassName = lpClassName;
-            this.windowCaption = windowCaption;
-
         }
 
         [ConfigurationProperty("name", IsRequired = true, IsKey = true, DefaultValue = "")]       

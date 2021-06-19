@@ -16,7 +16,7 @@
                 <ComboBox x:Name="TrackComboBox" HorizontalAlignment="Left" Margin="274,62,0,0" VerticalAlignment="Top" Width="209" IsReadOnly="True" Height="36" SelectionChanged="OnTrackComboBoxValueChanged" />
                 <Label x:Name="DebugLabel" Content="Debug" HorizontalAlignment="Left" Margin="31,204,0,0" VerticalAlignment="Top" FontSize="15" Height="35" Width="60"/>
                 <TextBox x:Name="DebugTextBox" HorizontalAlignment="Left" Margin="111,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="372" FontSize="10" Height="35"/>
-                <Label x:Name="RunnerLabel" Content="Runner status" HorizontalAlignment="Left" Margin="196,120,0,0" VerticalAlignment="Top" FontSize="15"/>
+                <Label x:Name="RunnerLabel" Content="Initializer status" HorizontalAlignment="Left" Margin="196,120,0,0" VerticalAlignment="Top" FontSize="15"/>
                 <TextBox x:Name="RunnerTextBox" HorizontalAlignment="Left" Margin="310,117,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="13" Height="35"/>
                 <Label x:Name="CommandLabel" Content="Command Index" HorizontalAlignment="Left" Margin="31,169,0,0" VerticalAlignment="Top" FontSize="15"/>
                 <TextBox x:Name="CommandTextBox" HorizontalAlignment="Left" Margin="170,164,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" FontSize="13" Height="35"/>

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Windows.Input;
+using System.Windows.Forms;
 
-namespace TasUi
+namespace WinformsEnabler
 {
-    public class KeyboardHandler
+    public class WinformsKeyboardHandler
     {
         [DllImport("user32.dll", SetLastError = true)]
         static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
@@ -33,16 +33,16 @@ namespace TasUi
         {
             switch (key)
             {
-                case (byte)Key.D4:
+                case (byte)Keys.Up:
                     WIsPressed = status;
                     break;
-                case (byte)Key.Left:
+                case (byte)Keys.Left:
                     AIsPressed = status;
                     break;
-                case (byte)Key.Down:
+                case (byte)Keys.Down:
                     SIsPressed = status;
                     break;
-                case (byte)Key.Right:
+                case (byte)Keys.Right:
                     DIsPressed = status;
                     break;
                 default:
@@ -54,13 +54,13 @@ namespace TasUi
         {
             switch (key)
             {
-                case (byte)Key.D4:
+                case (byte)Keys.Up:
                     return WIsPressed;
-                case (byte)Key.Left:
+                case (byte)Keys.Left:
                     return AIsPressed;
-                case (byte)Key.Down:
+                case (byte)Keys.Down:
                     return SIsPressed;
-                case (byte)Key.Right:
+                case (byte)Keys.Right:
                     return DIsPressed;
                 default:
                     Console.WriteLine("Key not acceptable");

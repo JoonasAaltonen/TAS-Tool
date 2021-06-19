@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Botti", "Botti\Botti.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasTool", "TasTool\TasTool.csproj", "{598F4C9D-2CB9-4BB0-9FB1-9888B1490590}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TasUi", "TasUi\TasUi.csproj", "{35E695F9-A47C-4DFE-ADF5-737DABD6317E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TasUi", "TasUi\TasUi.csproj", "{35E695F9-A47C-4DFE-ADF5-737DABD6317E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformsEnabler", "WinformsEnabler\WinformsEnabler.csproj", "{649F3907-19D8-4D16-912D-4D1D9DEA5EC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{35E695F9-A47C-4DFE-ADF5-737DABD6317E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35E695F9-A47C-4DFE-ADF5-737DABD6317E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35E695F9-A47C-4DFE-ADF5-737DABD6317E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{649F3907-19D8-4D16-912D-4D1D9DEA5EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{649F3907-19D8-4D16-912D-4D1D9DEA5EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{649F3907-19D8-4D16-912D-4D1D9DEA5EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{649F3907-19D8-4D16-912D-4D1D9DEA5EC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

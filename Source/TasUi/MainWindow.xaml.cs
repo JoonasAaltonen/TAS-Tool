@@ -13,7 +13,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using TasTool;
 using TasTool.ConfigElements;
+using TasTool.Interfaces;
 
 namespace TasUi
 {
@@ -22,13 +24,20 @@ namespace TasUi
     /// </summary>
     public partial class MainWindow : Window
     {
-        public string SelectedTrack = "";
+        public (string fileName, string filePath) SelectedTrack;
         public string SelectedGame = "";
         private SolidColorBrush errorRed = new SolidColorBrush(Color.FromRgb(180, 80, 80));
         private SolidColorBrush defaultColor = new SolidColorBrush(Color.FromRgb(255,255,255));
+        private IInitializer tasInitializer;
+        private ITasConfig Config;
+        private CommandHandler commandHandler;
+
         public MainWindow()
         {
             InitializeComponent();
+            tasInitializer = new TasFactory().CreateTasInitializer();
+            Config = tasInitializer.Config;
+            commandHandler = new CommandHandler(this, tasInitializer, KeyboardHandlerTypes.WpfKeyboardHandler);
             PopulateComboBoxes();
         }
 
@@ -36,47 +45,60 @@ namespace TasUi
         {
             if (IsSelectionValid())
             {
+                tasInitializer.Initialize(SelectedGame, SelectedTrack.filePath);
                 
+                SetDebugTextBoxBackgroundColor(tasInitializer.InitSuccessful);
+                DebugTextBox.Text = tasInitializer.DebugMessage;
+                
+                if (tasInitializer.InitSuccessful)
+                {
+                    commandHandler.StartRun(tasInitializer.TrackCommands);
+                    
+                }
+                else
+                {
+                    
+                }
             }
             else
             {
-                
+                DebugTextBox.Text = "Select a game and a track to play";
             }
         }
 
         private void OnClickStopButton(object sender, RoutedEventArgs e)
         {
-
+            commandHandler.StopRun();
         }
         
         private void PopulateComboBoxes()
         {
-            TasGamesSection tasGames = ConfigurationManager.GetSection("TasGamesSection") as TasGamesSection;
-
-            foreach (TasGameConfigElement tasGameConfigElement in tasGames.TasGameCollection)
+            foreach (KeyValuePair<string, string> track in Config.AvailableTracks)
             {
-                // todo Move and do something useful to get these into the combobox...
-                TasGameConfigElement asd = tasGameConfigElement; // Get full TasGame config object
-                TasGameConfigElement trialsConfig = tasGames.TasGameCollection["Trials"]; // Find the Config object attributes with object name
+                TrackComboBox.Items.Add(track.Key);
+            }
+            
+            foreach (var tasGame in Config.AvailableGames)
+            {
+                GameComboBox.Items.Add(tasGame.Name);
             }
 
-            string trackFolderPath = System.Configuration.ConfigurationManager.AppSettings["trackJsonLocation"];
-            string[] trackFiles = Directory.GetFiles(trackFolderPath);
-
-            foreach (string filePath in trackFiles)
+            if (TrackComboBox.Items.Count != 0 && GameComboBox.Items.Count != 0)
             {
-                TrackComboBox.Items.Add(System.IO.Path.GetFileName(filePath));
-            }
-
-            if (TrackComboBox.Items.Count != 0)
-            {
-                SelectedTrack = TrackComboBox.Items[0].ToString();
+                SelectedTrack.fileName = TrackComboBox.Items[0].ToString();
+                SelectedTrack.filePath = Config.AvailableTracks[SelectedTrack.fileName];
+                SelectedGame = GameComboBox.Items[0].ToString();
+                TrackComboBox.Text = SelectedTrack.fileName;
+                GameComboBox.Text = SelectedGame;
             }
         }
 
         private void OnTrackComboBoxValueChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedTrack = TrackComboBox.SelectedItem.ToString();
+            // There must be better way to fiddle around the string dictionaries
+            SelectedTrack = (TrackComboBox.SelectedItem.ToString(),
+                Config.AvailableTracks[TrackComboBox.SelectedItem.ToString()]);
+
         }
         private void OnGameComboBoxValueChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -85,7 +107,7 @@ namespace TasUi
 
         private bool IsSelectionValid()
         {
-            if (!string.IsNullOrEmpty(SelectedGame) && !string.IsNullOrEmpty(SelectedTrack))
+            if (!string.IsNullOrEmpty(SelectedGame) && !string.IsNullOrEmpty(SelectedTrack.fileName))
             {
                 SetDebugTextBoxBackgroundColor(true);
                 return true;
@@ -102,7 +124,6 @@ namespace TasUi
             }
             else
             {
-                DebugTextBox.Text = "Select a game and a track to play";
                 DebugTextBox.Background = errorRed;
             }
         }

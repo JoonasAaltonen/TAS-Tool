@@ -12,6 +12,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TasTool\TasTool.csproj" />
+    <ProjectReference Include="..\WinformsEnabler\WinformsEnabler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Track runs\ConstructionWork.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

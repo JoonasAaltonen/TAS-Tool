@@ -8,19 +8,30 @@ namespace TasTool.Track
 {
     public class TrackParser : ITrackParser
     {
-        private string ReadJson(string trackName)
+        private string ReadJson(string filePath)
         {
-            string path = String.Concat(ConfigurationSettings.AppSettings["trackJsonLocation"], trackName);
-            StreamReader reader = new StreamReader(path);
-            string contents = reader.ReadToEnd();
-            reader.Close();
-            return contents;
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                string contents = reader.ReadToEnd();
+                reader.Close();
+                return contents;
+            }
         }
-        public TrackCommands ParseTrack(string trackName)
+        public TrackCommands ParseTrack(string filePath, out string debugMessage)
         {
-            string trackData = ReadJson(trackName);
+            try
+            {
+                string trackData = ReadJson(filePath);
+                TrackCommands parsedCommands = JsonConvert.DeserializeObject<TrackCommands>(trackData);
+                debugMessage = "Track command JSON successfully parsed.";
+                return parsedCommands;
+            }
+            catch (Exception e)
+            {
+                debugMessage = "Exception in parsing track command JSON";
+                throw e;
+            }
 
-            return JsonConvert.DeserializeObject<TrackCommands>(trackData);
         }
     }
 }
