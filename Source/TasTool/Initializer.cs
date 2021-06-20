@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TasTool.ConfigElements;
 using TasTool.Handlers;
 using TasTool.Interfaces;
@@ -9,7 +10,7 @@ namespace TasTool
     public class Initializer : IInitializer
     {
         public ITasConfig Config { get; }
-        public TrackCommands TrackCommands { get; private set; }
+        public TrackData TrackData { get; private set; }
         public string DebugMessage { get; set; }
         public bool InitSuccessful { get; private set; }
 
@@ -27,13 +28,24 @@ namespace TasTool
         public void Initialize(string gameName, string trackFilePath)
         {
             DebugMessage = "";
+            List<bool> initSuccess = new List<bool>();
             var gameWindowDetails = Config.GetGameWindowDetails(gameName);
             
-            InitSuccessful = windowHandler.WindowFoundAndActivated(gameWindowDetails, out string debugMessage);
+            initSuccess.Add(windowHandler.WindowFoundAndActivated(gameWindowDetails, out string debugMessage));
             DebugMessage = ConcatDebugMessage(debugMessage);
 
-            TrackCommands = trackParser.ParseTrack(trackFilePath, out debugMessage);
+            TrackData = trackParser.ParseTrack(trackFilePath, out debugMessage, out bool success);
             DebugMessage = ConcatDebugMessage(debugMessage);
+            initSuccess.Add(success);
+
+            if (initSuccess.Contains(false))
+            {
+                InitSuccessful = false;
+            }
+            else
+            {
+                InitSuccessful = true;
+            }
 
         }
 

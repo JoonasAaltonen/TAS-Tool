@@ -8,7 +8,7 @@ namespace TasTool.Interfaces
         void Initialize(string gameName, string trackFilePath);
 
         ITasConfig Config { get; }
-        TrackCommands TrackCommands { get; }
+        TrackData TrackData { get; }
         string DebugMessage { get; set; }
         bool InitSuccessful { get; }
     }

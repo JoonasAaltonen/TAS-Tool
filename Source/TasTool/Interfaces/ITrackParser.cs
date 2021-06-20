@@ -4,6 +4,6 @@ namespace TasTool.Interfaces
 {
     public interface ITrackParser
     {
-        TrackCommands ParseTrack(string trackName, out string debugMessage);
+        TrackData ParseTrack(string trackName, out string debugMessage, out bool success);
     }
 }
