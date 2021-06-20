@@ -10,7 +10,7 @@ After the first winforms POC my intention was to have separate UI and "API" as t
 All sorts of comments and criticism is welcome, I just reserve the right to be aware of but not arsed to fix certain things.
 
 ## Configuration and usage
-TAS UI project has an App.config file which is the main (only) configuration file for the program. There are 3 things that the end user can adjust:  
+TAS UI project has an App.config file (TasUi.dll.config after compiling) which is the main (only) configuration file for the program. There are 3 things that the end user can adjust:  
  * Track input JSON files location. Set your own folder path after the parameter value. There are example input files included, they will be in C:\YourSolutionFolder\TAS-Tool\Source\TasUi\bin\Release\netcoreapp3.1\Track runs
      * ``<add key="trackJsonLocation" value="C:\TAS-Tool\Track runs" />``
  * Games that you try to run. You can add new ones as long as the parameters are correct:  
