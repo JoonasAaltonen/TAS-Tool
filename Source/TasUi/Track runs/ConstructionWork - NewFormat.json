@@ -4,25 +4,25 @@
   "Inputs": [
     {
       "Key": {
-        "KeyName": "W",
-        "OnOffPattern": [ 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0 ]
+        "KeyName": "Up",
+        "OnOffPattern": [1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0]
       }
     },
     {
       "Key": {
-        "KeyName": "A",
+        "KeyName": "Left",
         "OnOffPattern": [ 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0 ]
       }
     },
     {
       "Key": {
-        "KeyName": "D",
+        "KeyName": "Right",
         "OnOffPattern": [ 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
       }
     },
     {
       "Key": {
-        "KeyName": "S",
+        "KeyName": "Down",
         "OnOffPattern": [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
       }
     },

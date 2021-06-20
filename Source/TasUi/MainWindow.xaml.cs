@@ -53,7 +53,7 @@ namespace TasUi
                 
                 if (tasInitializer.InitSuccessful)
                 {
-                    commandHandler.StartRun(tasInitializer.TrackCommands);
+                    commandHandler.StartRun(tasInitializer.TrackData);
                     
                 }
                 else

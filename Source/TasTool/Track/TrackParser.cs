@@ -17,21 +17,31 @@ namespace TasTool.Track
                 return contents;
             }
         }
-        public TrackCommands ParseTrack(string filePath, out string debugMessage)
+        public TrackData ParseTrack(string filePath, out string debugMessage, out bool success)
         {
-            try
+            string trackData = ReadJson(filePath);
+            TrackData parsedData = JsonConvert.DeserializeObject<TrackData>(trackData);
+            if (IsParsingSuccessful(parsedData))
             {
-                string trackData = ReadJson(filePath);
-                TrackCommands parsedCommands = JsonConvert.DeserializeObject<TrackCommands>(trackData);
                 debugMessage = "Track command JSON successfully parsed.";
-                return parsedCommands;
+                success = true;
+                return parsedData;
             }
-            catch (Exception e)
+            debugMessage = "Track command JSON parsing failed or file does not include commands.";
+            success = false;
+            return parsedData;
+
+
+        }
+
+        private bool IsParsingSuccessful(TrackData data)
+        {
+            if (data.CommandInputs != null && data.CommandInputs.Count > 0 )
             {
-                debugMessage = "Exception in parsing track command JSON";
-                throw e;
+                return true;
             }
 
+            return false;
         }
     }
 }
