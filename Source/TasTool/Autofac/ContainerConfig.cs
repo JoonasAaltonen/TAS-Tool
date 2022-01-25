@@ -17,7 +17,6 @@ namespace TasTool.Autofac
             builder.RegisterType<WindowHandler>().As<IWindowHandler>();
             // Singleton ?? builder.RegisterType<WindowHandler>().As<IWindowHandler>().SingleInstance();
             builder.RegisterType<TasMediator>().As<ITasMediator>();
-            builder.RegisterType<TrackParserJson>().As<ITrackParserJson>();
             builder.RegisterType<TrackParser>().As<ITrackParser>();
             builder.RegisterType<TasConfig>().As<ITasConfig>();
             builder.RegisterType<InputMapper>().As<IInputMapper>();

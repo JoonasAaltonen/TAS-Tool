@@ -12,21 +12,18 @@ namespace TasTool
     {
         public ITasConfig Config { get; }
         public IInputHandler InputHandler { get; }
-        public TrackDataJson TrackData { get; private set; }
         public List<CommandData> CommandData { get; private set; }
         public string DebugMessage { get; set; }
         public bool InitSuccessful { get; private set; }
 
-        private ITrackParserJson trackParserJson;
         private ITrackParser trackParser;
         private readonly IWindowHandler windowHandler;
 
-        public TasMediator(ITasConfig config, IInputHandler inputHandler, IWindowHandler windowHandler, ITrackParserJson trackParserJson, ITrackParser trackParser)
+        public TasMediator(ITasConfig config, IInputHandler inputHandler, IWindowHandler windowHandler, ITrackParser trackParser)
         {
             Config = config;
             InputHandler = inputHandler;
             this.windowHandler = windowHandler;
-            this.trackParserJson = trackParserJson;
             this.trackParser = trackParser;
             DebugMessage = "";
         }

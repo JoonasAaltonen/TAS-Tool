@@ -67,8 +67,6 @@ namespace TasUi.KeyboardHandlers
             }
         }
         
-        public abstract void MapKeysJson(TrackDataJson data);
-
-        public abstract void MapKeysCsv(List<CommandData> data);
+        public abstract void MapKeys(List<CommandData> data);
     }
 }

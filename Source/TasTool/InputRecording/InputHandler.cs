@@ -12,7 +12,7 @@ namespace TasTool.InputRecording
         private Stopwatch absoluteTimeWatch;
         private Stopwatch deltaTimeWatch;
         private IInputWriter inputWriter;
-        private bool RecordingIsStarted = false;
+        private bool recordingIsStarted = false;
 
         public InputHandler(IInputWriter inputWriter)
         {
@@ -32,17 +32,17 @@ namespace TasTool.InputRecording
         {
             absoluteTimeWatch.Stop();
             deltaTimeWatch.Stop();
-            RecordingIsStarted = false;
+            recordingIsStarted = false;
             SaveInputData(InputDataBuffer);
             
         }
 
         public void RecordInput(string keyCode, KeyAction action)
         {
-            if (!RecordingIsStarted)
+            if (!recordingIsStarted)
             {
                 StartInputTimers();
-                RecordingIsStarted = true;
+                recordingIsStarted = true;
             }
             if (action == KeyAction.Up || (action == KeyAction.Down && !IsKeyHeld(keyCode, InputDataBuffer)))   // Add inputs when it's not a key being held down (causes multiple key down events)
             {

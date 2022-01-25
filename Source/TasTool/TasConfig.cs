@@ -22,17 +22,18 @@ namespace TasTool
             AvailableGames = new List<TasGameConfigElement>();
             AvailableTracks = new Dictionary<string, string>();
             availableKeyboardHandlers = new List<KeyboardHandlerConfigElement>();
-            ReadConfigFile();
+            GetConfiguration();
 
             EnabledKeyboardHandlerType = GetEnabledKeyboardHandler(availableKeyboardHandlers);
         }
 
-        private void ReadConfigFile()
+        public void GetConfiguration()
         {
             TasRunnerSection tasRunner = ConfigurationManager.GetSection("TasRunnerSection") as TasRunnerSection;
             string trackFolderPath = ConfigurationManager.AppSettings["trackJsonLocation"];
             InputRecordingsLocation = ConfigurationManager.AppSettings["inputRecordingsLocation"];
-
+            AvailableGames.Clear();
+            AvailableTracks.Clear();
             if (tasRunner != null && !string.IsNullOrEmpty(trackFolderPath))
             {
                 foreach (TasGameConfigElement tasGameConfigElement in tasRunner.TasGameCollection)

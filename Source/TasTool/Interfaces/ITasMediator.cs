@@ -10,7 +10,6 @@ namespace TasTool.Interfaces
 
         ITasConfig Config { get; }
         IInputHandler InputHandler { get; }
-        TrackDataJson TrackData { get; }
         List<CommandData> CommandData { get; }
         string DebugMessage { get; set; }
         bool InitSuccessful { get; }

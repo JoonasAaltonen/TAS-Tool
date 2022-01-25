@@ -18,67 +18,18 @@ namespace TasUi
 {
     public class CommandHandler
     {
-        private Timer timer;
         private Stopwatch stopwatch;
         public bool Running = false;
         private KeyboardHandlerTypes enabledKeyboardHandler;
         private KeyboardHandler keyboardHandler;
         private MainWindow mainWindow;
+        private CancellationTokenSource cancellationTokenSource;
+        private CancellationToken cancellationToken;
 
         public CommandHandler(MainWindow mainWindow, ITasMediator tasMediator, KeyboardHandlerTypes enabledKeyboardHandlerType)
         {
             enabledKeyboardHandler = enabledKeyboardHandlerType;
             this.mainWindow = mainWindow;
-        }
-
-        public void StartRun(TrackDataJson data)
-        {
-            int index = 0;
-            keyboardHandler = GetKeyboardHandler(enabledKeyboardHandler);
-            keyboardHandler.MapKeysJson(data);
-
-            timer = new Timer(data.Timing);
-            timer.Start();
-            Running = true;
-            timer.Elapsed += (sender, args) => ReadNextInputs(data, ref index);
-
-            stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            mainWindow.InvokeTextBoxValueChange(mainWindow.RunnerTextBox, "Running");
-        }
-
-        public void StopRun()
-        {
-            if (Running)
-            {
-                timer.Stop();
-                stopwatch.Stop();
-                Running = false;
-                keyboardHandler.ReleaseAllKeys();
-                mainWindow.InvokeTextBoxValueChange(mainWindow.RunnerTextBox, "Stopped");
-            }
-        }
-
-        private void ReadNextInputs(TrackDataJson data, ref int index)
-        {
-            if (index >= data.Length)
-            {
-                StopRun();
-                return;
-            }
-            foreach (Input input in data.CommandInputs)
-            {
-                byte nextState = input.CommandKey.OnOffPattern[index];
-                MappedKey selectedKey = keyboardHandler.MappedKeys.Single(k => k.KeyName == input.CommandKey.KeyName);
-
-                keyboardHandler.HandleKeys(selectedKey.Key, nextState);
-            }
-
-            mainWindow.InvokeTextBoxValueChange(mainWindow.CommandTextBox, index.ToString());
-            mainWindow.InvokeTextBoxValueChange(mainWindow.ElapsedTimeTextBox, stopwatch.ElapsedMilliseconds.ToString());
-
-            index++;
         }
 
         private KeyboardHandler GetKeyboardHandler(KeyboardHandlerTypes enabledKeyboardHandlerType)
@@ -93,27 +44,43 @@ namespace TasUi
             }
         }
 
-        public async Task RunCsvInputs(List<CommandData> trackData)
+        public async Task StartRun(List<CommandData> trackData)
         {
+            cancellationTokenSource = new CancellationTokenSource();
+            cancellationToken = cancellationTokenSource.Token;
+            Running = true;
             keyboardHandler = GetKeyboardHandler(enabledKeyboardHandler);
-            keyboardHandler.MapKeysCsv(trackData);
+            keyboardHandler.MapKeys(trackData);
 
+            mainWindow.InvokeTextBoxValueChange(mainWindow.RunnerTextBox, "Running");
+
+            stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            int index = 0;
             foreach (CommandData commandData in trackData)
             {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
                 try
                 {
                     MappedKey selectedKey = keyboardHandler.MappedKeys.Single(k => k.KeyName == commandData.KeyCode);
+                    mainWindow.InvokeTextBoxValueChange(mainWindow.CommandTextBox, index.ToString());
+                    mainWindow.InvokeTextBoxValueChange(mainWindow.ElapsedTimeTextBox, stopwatch.ElapsedMilliseconds.ToString());
+                    index++;
+
                     await HandleNextInput((int)commandData.DeltaTime, selectedKey.Key, (byte)commandData.Action);
                 }
                 catch (Exception)
                 {
-
                     throw;
                 }
                 
             }
-
-            StopCsvRun();
+            // When command data csv file has been read and executed
+            StopRun();
         }
 
         async Task HandleNextInput(int deltaTime, byte key, byte nextState)
@@ -122,10 +89,18 @@ namespace TasUi
             keyboardHandler.HandleKeys(key, nextState);
         }
 
-        public void StopCsvRun()
+        public void StopRun()
         {
+            cancellationTokenSource.Cancel();
+            Running = false;
             keyboardHandler.ReleaseAllKeys();
             mainWindow.InvokeTextBoxValueChange(mainWindow.RunnerTextBox, "Stopped");
+        }
+
+        public void TestHolding()
+        {
+            keyboardHandler = GetKeyboardHandler(enabledKeyboardHandler);
+            keyboardHandler.HoldKey(24);
         }
     }
 }

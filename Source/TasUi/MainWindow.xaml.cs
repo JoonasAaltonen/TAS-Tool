@@ -60,8 +60,7 @@ namespace TasUi
                 
                 if (tasMediator.InitSuccessful)
                 {
-                    //commandHandler.StartRun(tasMediator.TrackData);
-                    await commandHandler.RunCsvInputs(tasMediator.CommandData);
+                    await commandHandler.StartRun(tasMediator.CommandData);
                 }
                 else
                 {
@@ -74,13 +73,15 @@ namespace TasUi
             }
         }
 
-        private void OnClickStopButton(object sender, RoutedEventArgs e)
+        private async void OnClickStopButton(object sender, RoutedEventArgs e)
         {
             commandHandler.StopRun();
         }
         
         private void PopulateComboBoxes()
         {
+            TrackComboBox.Items.Clear();
+            GameComboBox.Items.Clear();
             foreach (KeyValuePair<string, string> track in Config.AvailableTracks)
             {
                 TrackComboBox.Items.Add(track.Key);
@@ -159,8 +160,13 @@ namespace TasUi
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            TrackParser csv = new TrackParser();
-            csv.ParseTrack(@"C:\Temp\Inputs 2022-1-25 06.32.57.csv", out string debugMessage, out bool initSuccessful);
+            commandHandler.TestHolding();
+        }
+
+        private void OnClickRefresh(object sender, RoutedEventArgs e)
+        {
+            tasMediator.Config.GetConfiguration();
+            PopulateComboBoxes();
         }
     }
 }

@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="refresh.bmp" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MouseKeyHook" Version="5.6.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
   </ItemGroup>
@@ -14,6 +18,10 @@
   <ItemGroup>
     <ProjectReference Include="..\TasTool\TasTool.csproj" />
     <ProjectReference Include="..\WinformsEnabler\WinformsEnabler.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="refresh.bmp" />
   </ItemGroup>
 
   <ItemGroup>
