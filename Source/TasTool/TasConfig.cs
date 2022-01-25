@@ -15,7 +15,7 @@ namespace TasTool
         public List<TasGameConfigElement> AvailableGames { get; set; }
         private List<KeyboardHandlerConfigElement> availableKeyboardHandlers { get; set; }
         public KeyboardHandlerTypes EnabledKeyboardHandlerType { get; private set; }
-
+        public string InputRecordingsLocation { get; private set; }
 
         public TasConfig()
         {
@@ -31,6 +31,7 @@ namespace TasTool
         {
             TasRunnerSection tasRunner = ConfigurationManager.GetSection("TasRunnerSection") as TasRunnerSection;
             string trackFolderPath = ConfigurationManager.AppSettings["trackJsonLocation"];
+            InputRecordingsLocation = ConfigurationManager.AppSettings["inputRecordingsLocation"];
 
             if (tasRunner != null && !string.IsNullOrEmpty(trackFolderPath))
             {

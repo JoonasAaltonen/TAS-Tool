@@ -10,5 +10,6 @@ namespace TasTool.Interfaces
         List<TasGameConfigElement> AvailableGames { get; set; }
         (string LpClassName, string WindowCaption) GetGameWindowDetails(string gameName);
         public KeyboardHandlerTypes EnabledKeyboardHandlerType { get; }
+        public string InputRecordingsLocation { get; }
     }
 }

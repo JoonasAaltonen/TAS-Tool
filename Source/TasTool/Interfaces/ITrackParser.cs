@@ -1,9 +1,10 @@
-﻿using TasTool.Track;
+﻿using System.Collections.Generic;
+using TasTool.Track;
 
 namespace TasTool.Interfaces
 {
     public interface ITrackParser
     {
-        TrackData ParseTrack(string trackName, out string debugMessage, out bool success);
+        List<CommandData> ParseTrack(string filePath, out string debugMessage, out bool success);
     }
 }

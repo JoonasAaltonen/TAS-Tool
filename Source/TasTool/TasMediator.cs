@@ -2,25 +2,31 @@
 using System.Collections.Generic;
 using TasTool.ConfigElements;
 using TasTool.Handlers;
+using TasTool.InputRecording;
 using TasTool.Interfaces;
 using TasTool.Track;
 
 namespace TasTool
 {
-    public class Initializer : IInitializer
+    public class TasMediator : ITasMediator
     {
         public ITasConfig Config { get; }
-        public TrackData TrackData { get; private set; }
+        public IInputHandler InputHandler { get; }
+        public TrackDataJson TrackData { get; private set; }
+        public List<CommandData> CommandData { get; private set; }
         public string DebugMessage { get; set; }
         public bool InitSuccessful { get; private set; }
 
+        private ITrackParserJson trackParserJson;
         private ITrackParser trackParser;
         private readonly IWindowHandler windowHandler;
 
-        public Initializer(ITasConfig config, IWindowHandler windowHandler, ITrackParser trackParser)
+        public TasMediator(ITasConfig config, IInputHandler inputHandler, IWindowHandler windowHandler, ITrackParserJson trackParserJson, ITrackParser trackParser)
         {
             Config = config;
+            InputHandler = inputHandler;
             this.windowHandler = windowHandler;
+            this.trackParserJson = trackParserJson;
             this.trackParser = trackParser;
             DebugMessage = "";
         }
@@ -34,7 +40,8 @@ namespace TasTool
             initSuccess.Add(windowHandler.WindowFoundAndActivated(gameWindowDetails, out string debugMessage));
             DebugMessage = ConcatDebugMessage(debugMessage);
 
-            TrackData = trackParser.ParseTrack(trackFilePath, out debugMessage, out bool success);
+            //TrackData = trackParserJson.ParseTrack(trackFilePath, out debugMessage, out bool success);
+            CommandData = trackParser.ParseTrack(trackFilePath, out debugMessage, out bool success);
             DebugMessage = ConcatDebugMessage(debugMessage);
             initSuccess.Add(success);
 
@@ -46,7 +53,6 @@ namespace TasTool
             {
                 InitSuccessful = true;
             }
-
         }
 
         private string ConcatDebugMessage(string nextMessage)

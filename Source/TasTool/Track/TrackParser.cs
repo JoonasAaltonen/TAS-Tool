@@ -1,47 +1,57 @@
 ﻿using System;
-using System.Configuration;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-using Newtonsoft.Json;
+using System.Linq;
+using CsvHelper;
+using TasTool.InputRecording;
 using TasTool.Interfaces;
 
 namespace TasTool.Track
 {
     public class TrackParser : ITrackParser
     {
-        private string ReadJson(string filePath)
+        public List<CommandData> ParseTrack(string filePath, out string debugMessage, out bool success)
         {
-            using (StreamReader reader = new StreamReader(filePath))
+            List<CommandData> parsedTrackData = new List<CommandData>();
+            try
             {
-                string contents = reader.ReadToEnd();
-                reader.Close();
-                return contents;
+                using (StreamReader streamReader = File.OpenText(filePath))
+                using (CsvReader csvReader = new CsvReader(streamReader, CultureInfo.InvariantCulture))
+                {
+                    parsedTrackData = csvReader.GetRecords<CommandData>().ToList();
+                }
+
+                if (IsParsingSuccessful(parsedTrackData))
+                {
+                    debugMessage = "Track data successfully parsed";
+                    success = true;
+                    return parsedTrackData;
+                }
+                debugMessage = "Track command file parsing failed or file does not include any commands.";
+                success = false;
+                return parsedTrackData;
+
             }
-        }
-        public TrackData ParseTrack(string filePath, out string debugMessage, out bool success)
-        {
-            string trackData = ReadJson(filePath);
-            TrackData parsedData = JsonConvert.DeserializeObject<TrackData>(trackData);
-            if (IsParsingSuccessful(parsedData))
+            catch (Exception e)
             {
-                debugMessage = "Track command JSON successfully parsed.";
-                success = true;
-                return parsedData;
+                debugMessage = string.Format("Exception in parsing track command data file: \n{0}", e.Message);
+                success = false;
+                return parsedTrackData;
             }
-            debugMessage = "Track command JSON parsing failed or file does not include commands.";
-            success = false;
-            return parsedData;
-
-
+            
         }
 
-        private bool IsParsingSuccessful(TrackData data)
+        private bool IsParsingSuccessful(IEnumerable<CommandData> data)
         {
-            if (data.CommandInputs != null && data.CommandInputs.Count > 0 )
+            if (data.Any(x => x.KeyCode != null))
             {
                 return true;
             }
 
             return false;
         }
+
+
     }
 }

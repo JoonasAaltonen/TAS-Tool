@@ -3,12 +3,14 @@ using Newtonsoft.Json;
 
 namespace TasTool.Track
 {
-    public class TrackData
+    public class TrackDataJson
     {
         [JsonProperty("Timing")]
         public int Timing { get; set; }
+        
         [JsonProperty("Length")]
         public int Length { get; set; }
+        
         [JsonProperty("Inputs")]
         public List<Input> CommandInputs { get; set; }
     }
@@ -23,6 +25,7 @@ namespace TasTool.Track
     {
         [JsonProperty("KeyName")]
         public string KeyName { get; set; }
+        
         [JsonProperty("OnOffPattern")]
         public byte[] OnOffPattern { get; set; }
     }

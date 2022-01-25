@@ -13,10 +13,13 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 using TasTool;
 using TasTool.ConfigElements;
 using TasTool.Handlers;
 using TasTool.Interfaces;
+using TasTool.Track;
+using TasUi.InputRecording;
 
 namespace TasUi
 {
@@ -29,32 +32,36 @@ namespace TasUi
         public string SelectedGame = "";
         private SolidColorBrush errorRed = new SolidColorBrush(Color.FromRgb(180, 80, 80));
         private SolidColorBrush defaultColor = new SolidColorBrush(Color.FromRgb(255,255,255));
-        private IInitializer tasInitializer;
+        private ITasMediator tasMediator;
         private ITasConfig Config;
         private CommandHandler commandHandler;
+        private KeyboardHookHandler keyboardHook;
+
+        private delegate void SetTextBoxValueDelegate(TextBox textBoxName, string value);
 
         public MainWindow()
         {
             InitializeComponent();
-            tasInitializer = new TasFactory().CreateTasInitializer();
-            Config = tasInitializer.Config;
-            commandHandler = new CommandHandler(this, tasInitializer, Config.EnabledKeyboardHandlerType);
+            tasMediator = new TasFactory().CreateTasMediator();
+            Config = tasMediator.Config;
+            commandHandler = new CommandHandler(this, tasMediator, Config.EnabledKeyboardHandlerType);
             PopulateComboBoxes();
+            keyboardHook = new KeyboardHookHandler(tasMediator);
         }
 
-        private void OnClickStartButton(object sender, RoutedEventArgs e)
+        private async void OnClickStartButton(object sender, RoutedEventArgs e)
         {
             if (IsSelectionValid())
             {
-                tasInitializer.Initialize(SelectedGame, SelectedTrack.filePath);
+                tasMediator.Initialize(SelectedGame, SelectedTrack.filePath);
                 
-                SetDebugTextBoxBackgroundColor(tasInitializer.InitSuccessful);
-                DebugTextBox.Text = tasInitializer.DebugMessage;
+                SetDebugTextBoxBackgroundColor(tasMediator.InitSuccessful);
+                DebugTextBox.Text = tasMediator.DebugMessage;
                 
-                if (tasInitializer.InitSuccessful)
+                if (tasMediator.InitSuccessful)
                 {
-                    commandHandler.StartRun(tasInitializer.TrackData);
-                    
+                    //commandHandler.StartRun(tasMediator.TrackData);
+                    await commandHandler.RunCsvInputs(tasMediator.CommandData);
                 }
                 else
                 {
@@ -127,6 +134,33 @@ namespace TasUi
             {
                 DebugTextBox.Background = errorRed;
             }
+        }
+
+        public void InvokeTextBoxValueChange(TextBox textBoxName, string value)
+        {
+            object[] objs = {textBoxName, value};
+            Dispatcher.Invoke(new SetTextBoxValueDelegate(SetTextBoxValue), objs);
+        }
+
+        public void SetTextBoxValue(TextBox textBoxName, string value)
+        {
+            textBoxName.Text = value;
+        }
+
+        private void OnClickStartInputRecordingButton(object sender, RoutedEventArgs e)
+        {
+            keyboardHook.StartInputRecording();
+        }
+
+        private void OnClickStopInputRecordingButton(object sender, RoutedEventArgs e)
+        {
+            keyboardHook.StopInputRecording();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            TrackParser csv = new TrackParser();
+            csv.ParseTrack(@"C:\Temp\Inputs 2022-1-25 06.32.57.csv", out string debugMessage, out bool initSuccessful);
         }
     }
 }

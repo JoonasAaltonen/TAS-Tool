@@ -10,11 +10,11 @@ namespace TasTool
 {
     public class TasFactory
     {
-        public IInitializer CreateTasInitializer()
+        public ITasMediator CreateTasMediator()
         {
             var container = ContainerConfig.Configure();
             var scope = container.BeginLifetimeScope();
-            var app = scope.Resolve<IInitializer>();
+            var app = scope.Resolve<ITasMediator>();
             return app;
         }
     }

@@ -16,7 +16,7 @@
                 <ComboBox x:Name="TrackComboBox" HorizontalAlignment="Left" Margin="274,62,0,0" VerticalAlignment="Top" Width="209" IsReadOnly="True" Height="36" SelectionChanged="OnTrackComboBoxValueChanged" />
                 <Label x:Name="DebugLabel" Content="Debug" HorizontalAlignment="Left" Margin="31,204,0,0" VerticalAlignment="Top" FontSize="15" Height="35" Width="60"/>
                 <TextBox x:Name="DebugTextBox" HorizontalAlignment="Left" Margin="111,206,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="372" FontSize="10" Height="35"/>
-                <Label x:Name="RunnerLabel" Content="Initializer status" HorizontalAlignment="Left" Margin="196,120,0,0" VerticalAlignment="Top" FontSize="15"/>
+                <Label x:Name="RunnerLabel" Content="Runner status" HorizontalAlignment="Left" Margin="196,120,0,0" VerticalAlignment="Top" FontSize="15"/>
                 <TextBox x:Name="RunnerTextBox" HorizontalAlignment="Left" Margin="310,117,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="13" Height="35"/>
                 <Label x:Name="CommandLabel" Content="Command Index" HorizontalAlignment="Left" Margin="31,169,0,0" VerticalAlignment="Top" FontSize="15"/>
                 <TextBox x:Name="CommandTextBox" HorizontalAlignment="Left" Margin="170,164,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" FontSize="13" Height="35"/>
@@ -36,7 +36,13 @@
                 <Canvas x:Name="DownArrowCanv" Margin="41,85,0,0" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="35" Grid.Column="1"/>
                 <Canvas x:Name="RightArrowCanv" Margin="92,85,0,0" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="35" Width="40" Grid.Column="1"/>
                 <Canvas x:Name="UpArrowCanv" Margin="41,40,0,0" Background="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="35" Grid.Column="1"/>
-
+            </Grid>
+        </TabItem>
+        <TabItem Header="Input recording">
+            <Grid Background="#FFE5E5E5">
+                <Button x:Name="StartInputRecordingButton" Content="Start recording inputs" HorizontalAlignment="Left" Margin="14,17,0,0" VerticalAlignment="Top" Height="36" Width="133" Click="OnClickStartInputRecordingButton" Grid.ColumnSpan="2"/>
+                <Button x:Name="StopInputRecordingButton" Content="Stop recording inputs" HorizontalAlignment="Left" Margin="14,58,0,0" VerticalAlignment="Top" Height="36" Width="133" Click="OnClickStopInputRecordingButton" Grid.ColumnSpan="2"/>
+                <Button Content="Button" HorizontalAlignment="Left" Margin="235,35,0,0" VerticalAlignment="Top" Click="Button_Click"/>
             </Grid>
         </TabItem>
     </TabControl>
