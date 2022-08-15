@@ -48,6 +48,7 @@
                 <Button x:Name="StartInputRecordingButton" Content="Start recording inputs" HorizontalAlignment="Left" Margin="14,17,0,0" VerticalAlignment="Top" Height="36" Width="133" Click="OnClickStartInputRecordingButton" Grid.ColumnSpan="2"/>
                 <Button x:Name="StopInputRecordingButton" Content="Stop recording inputs" HorizontalAlignment="Left" Margin="14,58,0,0" VerticalAlignment="Top" Height="36" Width="133" Click="OnClickStopInputRecordingButton" Grid.ColumnSpan="2"/>
                 <Button Content="Debug" HorizontalAlignment="Left" Margin="235,35,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+                <Ellipse x:Name="RecordIcon" HorizontalAlignment="Left" Height="18" Margin="160,26,0,0" Stroke="Black" Fill="WhiteSmoke" VerticalAlignment="Top" Width="18"/>
             </Grid>
         </TabItem>
     </TabControl>

@@ -80,13 +80,21 @@ namespace TasUi
         
         private void PopulateComboBoxes()
         {
-            TrackComboBox.Items.Clear();
-            GameComboBox.Items.Clear();
+            if (!TrackComboBox.Items.IsEmpty)
+            {
+                TrackComboBox.Items.Clear();
+            }
+
+            if (!GameComboBox.Items.IsEmpty)
+            {
+                GameComboBox.Items.Clear();
+            }
+
             foreach (KeyValuePair<string, string> track in Config.AvailableTracks)
             {
                 TrackComboBox.Items.Add(track.Key);
             }
-            
+
             foreach (var tasGame in Config.AvailableGames)
             {
                 GameComboBox.Items.Add(tasGame.Name);
@@ -105,13 +113,19 @@ namespace TasUi
         private void OnTrackComboBoxValueChanged(object sender, SelectionChangedEventArgs e)
         {
             // There must be better way to fiddle around the string dictionaries
-            SelectedTrack = (TrackComboBox.SelectedItem.ToString(),
-                Config.AvailableTracks[TrackComboBox.SelectedItem.ToString()]);
+            if (TrackComboBox.SelectedItem != null)
+            {
+                SelectedTrack = (TrackComboBox.SelectedItem.ToString(),
+                    Config.AvailableTracks[TrackComboBox.SelectedItem.ToString()]);
+            }
 
         }
         private void OnGameComboBoxValueChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedGame = GameComboBox.SelectedItem.ToString();
+            if (GameComboBox.SelectedItem != null)
+            {
+                SelectedGame = GameComboBox.SelectedItem.ToString();
+            }
         }
 
         private bool IsSelectionValid()
@@ -150,11 +164,13 @@ namespace TasUi
 
         private void OnClickStartInputRecordingButton(object sender, RoutedEventArgs e)
         {
+            RecordIcon.Fill = Brushes.Red;
             keyboardHook.StartInputRecording();
         }
 
         private void OnClickStopInputRecordingButton(object sender, RoutedEventArgs e)
         {
+            RecordIcon.Fill = defaultColor;
             keyboardHook.StopInputRecording();
         }
 

@@ -24,6 +24,8 @@ namespace TasTool.InputRecording
 
         private void StartInputTimers()
         {
+            absoluteTimeWatch.Reset();
+            deltaTimeWatch.Reset();
             absoluteTimeWatch.Start();
             deltaTimeWatch.Start();
         }
@@ -34,6 +36,7 @@ namespace TasTool.InputRecording
             deltaTimeWatch.Stop();
             recordingIsStarted = false;
             SaveInputData(InputDataBuffer);
+            InputDataBuffer.Clear();
             
         }
 
